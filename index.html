@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Dev's Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .title {
+            background: linear-gradient(45deg, #00bcd4, #2196f3, #3f51b5);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(33, 150, 243, 0.3);
+            animation: gradientShift 3s ease-in-out infinite alternate;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #64b5f6;
+            font-weight: 300;
+            margin-top: 10px;
+        }
+
+        .featured-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding-left: 15px;
+        }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mod-card {
+            background: linear-gradient(145deg, #1e2832, #2a3441);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mod-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: #00bcd4;
+            box-shadow: 0 8px 40px rgba(0, 188, 212, 0.2), 0 0 20px rgba(0, 188, 212, 0.1);
+        }
+
+        .mod-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .mod-card:hover .mod-image {
+            transform: scale(1.05);
+        }
+
+        .mod-info {
+            padding: 20px;
+        }
+
+        .mod-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .mod-description {
+            font-size: 0.9rem;
+            color: #b0bec5;
+            line-height: 1.4;
+        }
+
+        .wip-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(45deg, #f44336, #e91e63);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .question-marks {
+            font-size: 4rem;
+            color: #ffffff;
+            text-align: center;
+            line-height: 200px;
+            background: linear-gradient(45deg, #424242, #616161);
+        }
+
+        @media (max-width: 768px) {
+            .mods-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Subtle animations */
+        .mod-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .mod-card:nth-child(1) { animation-delay: 0.1s; }
+        .mod-card:nth-child(2) { animation-delay: 0.2s; }
+        .mod-card:nth-child(3) { animation-delay: 0.3s; }
+        .mod-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Secret Dev's Library</h1>
+        </header>
+
+        <section class="featured-section">
+            <h2 class="section-title">Featured Mods</h2>
+            <div class="mods-grid">
+                <div class="mod-card" data-download="small-mario-mod.zip">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=200&fit=crop&crop=center" alt="Small Mario Mod" class="mod-image">
+                    <div class="mod-info">
+                        <h3 class="mod-title">Small Mario Mod</h3>
+                        <p class="mod-description">Mario has now become 30% of his original size</p>
+                    </div>
+                </div>
+
+                <div class="mod-card" data-download="manhunt-mod.zip">
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=200&fit=crop&crop=center" alt="ManHunt" class="mod-image">
+                    <div class="mod-info">
+                        <h3 class="mod-title">ManHunt</h3>
+                        <p class="mod-description">Super Mario Odyssey Online, ManHunt Gamemode</p>
+                    </div>
+                </div>
+
+                <div class="mod-card coming-soon" data-download="">
+                    <div class="question-marks">???</div>
+                    <div class="wip-badge">WIP</div>
+                    <div class="mod-info">
+                        <h3 class="mod-title" style="color: #90a4ae;">Shine Thief</h3>
+                        <p class="mod-description" style="font-style: italic;">Coming Soon</p>
+                    </div>
+                </div>
+
+                <div class="mod-card" data-download="mystery-mod.zip">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=200&fit=crop&crop=center" alt="Mystery Mod" class="mod-image">
+                    <div class="mod-info">
+                        <h3 class="mod-title">Power-Up Pack</h3>
+                        <p class="mod-description">Collection of enhanced power-ups and abilities</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Handle mod card clicks for downloads
+        document.querySelectorAll('.mod-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const downloadFile = this.getAttribute('data-download');
+                if (downloadFile && !this.classList.contains('coming-soon')) {
+                    // Create a temporary download link
+                    const link = document.createElement('a');
+                    link.href = `#${downloadFile}`; // In a real implementation, this would be the actual file path
+                    link.download = downloadFile;
+                    document.body.appendChild(link);
+                    
+                    // Simulate download (replace with actual file URLs in production)
+                    console.log(`Downloading: ${downloadFile}`);
+                    alert(`Download started: ${downloadFile}\n\nNote: Replace with actual file URLs in production.`);
+                    
+                    document.body.removeChild(link);
+                }
+            });
+        });
+
+        // Add some interactive feedback
+        document.querySelectorAll('.mod-card:not(.coming-soon)').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
